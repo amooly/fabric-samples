@@ -20,7 +20,7 @@ services:
 
   orderer.insurance.com:
     extends:
-      file:   docker-compose-base-insurance.yaml
+      file:   base/docker-compose-base.yaml
       service: orderer.insurance.com
     container_name: orderer.insurance.com
     environment:
@@ -31,7 +31,7 @@ services:
   peer0.apple.insurance.com:
     container_name: peer0.apple.insurance.com
     extends:
-      file:  docker-compose-base-insurance.yaml
+      file:  base/docker-compose-base.yaml
       service: peer0.apple.insurance.com
     environment:
       - GODEBUG=netdns=go
@@ -41,7 +41,7 @@ services:
   peer0.billy.insurance.com:
     container_name: peer0.billy.insurance.com
     extends:
-      file:  docker-compose-base-insurance.yaml
+      file:  base/docker-compose-base.yaml
       service: peer0.billy.insurance.com
     environment:
       - GODEBUG=netdns=go
@@ -51,7 +51,7 @@ services:
   peer0.platform.insurance.com:
     container_name: peer0.platform.insurance.com
     extends:
-      file:  docker-compose-base-insurance.yaml
+      file:  base/docker-compose-base.yaml
       service: peer0.platform.insurance.com
     environment:
       - GODEBUG=netdns=go
@@ -61,7 +61,7 @@ services:
   peer0.medical.insurance.com:
     container_name: peer0.medical.insurance.com
     extends:
-      file:  docker-compose-base-insurance.yaml
+      file:  base/docker-compose-base.yaml
       service: peer0.medical.insurance.com
     environment:
       - GODEBUG=netdns=go
@@ -71,7 +71,7 @@ services:
   peer0.transport.insurance.com:
     container_name: peer0.transport.insurance.com
     extends:
-      file:  base/docker-compose-base-insurance.yaml
+      file:  base/docker-compose-base.yaml
       service: peer0.transport.insurance.com
     environment:
       - GODEBUG=netdns=go

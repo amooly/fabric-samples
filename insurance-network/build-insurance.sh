@@ -12,3 +12,6 @@ configtxgen -profile InsuranceOrgsChannel -outputCreateChannelTx ./channel-artif
 
 ## 生成基础信息渠道
 configtxgen -profile FundamentalOrgsChannel -outputCreateChannelTx ./channel-artifacts/fundamentalChannel.tx -channelID fundamental
+
+# 启动
+docker-compose -f docker-compose-insurance.yaml up -d
