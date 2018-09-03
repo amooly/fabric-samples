@@ -1,0 +1,133 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+services:
+
+  orderer.insurance.com:
+    container_name: orderer.insurance.com
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ../crypto-config/ordererOrganizations/insurance.com/orderers/orderer.insurance.com/msp:/var/hyperledger/orderer/msp
+    - ../crypto-config/ordererOrganizations/insurance.com/orderers/orderer.insurance.com/tls/:/var/hyperledger/orderer/tls
+    - orderer.insurance.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+
+  peer0.apple.insurance.com:
+    container_name: peer0.apple.insurance.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.apple.insurance.com
+      - CORE_PEER_ADDRESS=peer0.apple.insurance.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.platform.insurance.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.apple.insurance.com:7051
+      - CORE_PEER_LOCALMSPID=AppleMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/apple.insurance.com/peers/peer0.apple.insurance.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/apple.insurance.com/peers/peer0.apple.insurance.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.apple.insurance.com:/var/hyperledger/production
+    ports:
+      - 7051:7051
+      - 7053:7053
+
+  peer0.billy.insurance.com:
+    container_name: peer0.billy.insurance.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.billy.insurance.com
+      - CORE_PEER_ADDRESS=peer0.billy.insurance.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.billy.insurance.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.platform.insurance.com:7051
+      - CORE_PEER_LOCALMSPID=BillyMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/billy.insurance.com/peers/peer0.billy.insurance.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/billy.insurance.com/peers/peer0.billy.insurance.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.billy.insurance.com:/var/hyperledger/production
+    ports:
+      - 8051:7051
+      - 8053:7053
+
+  peer0.platform.insurance.com:
+    container_name: peer0.platform.insurance.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.platform.insurance.com
+      - CORE_PEER_ADDRESS=peer0.platform.insurance.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.platform.insurance.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.platform.insurance.com:7051
+      - CORE_PEER_LOCALMSPID=PlatformMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/platform.insurance.com/peers/peer0.platform.insurance.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/platform.insurance.com/peers/peer0.platform.insurance.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.platform.insurance.com:/var/hyperledger/production
+    ports:
+      - 9051:7051
+      - 9053:7053
+
+  peer0.medical.insurance.com:
+    container_name: peer0.medical.insurance.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.medical.insurance.com
+      - CORE_PEER_ADDRESS=peer0.medical.insurance.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.medical.insurance.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.platform.insurance.com:7051
+      - CORE_PEER_LOCALMSPID=MedicalMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/medical.insurance.com/peers/peer0.medical.insurance.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/medical.insurance.com/peers/peer0.medical.insurance.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.medical.insurance.com:/var/hyperledger/production
+    ports:
+      - 10051:7051
+      - 10053:7053
+
+  peer0.transport.insurance.com:
+    container_name: peer0.transport.insurance.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.transport.insurance.com
+      - CORE_PEER_ADDRESS=peer0.transport.insurance.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.transport.insurance.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.platform.insurance.com:7051
+      - CORE_PEER_LOCALMSPID=TransportMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/transport.insurance.com/peers/peer0.transport.insurance.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/transport.insurance.com/peers/peer0.transport.insurance.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.transport.insurance.com:/var/hyperledger/production
+    ports:
+      - 11051:7051
+      - 11053:7053
