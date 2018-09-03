@@ -22,6 +22,8 @@ services:
       file:   base/docker-compose-base.yaml
       service: orderer.example.com
     container_name: orderer.example.com
+    environment:
+      - GODEBUG=netdns=go
     networks:
       - byfn
 
@@ -30,6 +32,8 @@ services:
     extends:
       file:  base/docker-compose-base.yaml
       service: peer0.org1.example.com
+    environment:
+      - GODEBUG=netdns=go
     networks:
       - byfn
 
@@ -38,6 +42,8 @@ services:
     extends:
       file:  base/docker-compose-base.yaml
       service: peer1.org1.example.com
+    environment:
+      - GODEBUG=netdns=go
     networks:
       - byfn
 
@@ -46,6 +52,8 @@ services:
     extends:
       file:  base/docker-compose-base.yaml
       service: peer0.org2.example.com
+    environment:
+      - GODEBUG=netdns=go
     networks:
       - byfn
 
@@ -54,6 +62,8 @@ services:
     extends:
       file:  base/docker-compose-base.yaml
       service: peer1.org2.example.com
+    environment:
+      - GODEBUG=netdns=go
     networks:
       - byfn
 
@@ -63,6 +73,7 @@ services:
     tty: true
     stdin_open: true
     environment:
+      - GODEBUG=netdns=go
       - GOPATH=/opt/gopath
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       #- CORE_LOGGING_LEVEL=DEBUG
