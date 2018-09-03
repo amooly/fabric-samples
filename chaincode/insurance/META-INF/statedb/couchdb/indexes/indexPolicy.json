@@ -1,0 +1,11 @@
+{
+  "index": {
+    "fields": [
+      "DataType",
+      "ComId"
+    ]
+  },
+  "ddoc": "policyIndexDoc",
+  "name": "policyIndex",
+  "type": "json"
+}

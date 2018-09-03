@@ -1,0 +1,14 @@
+{
+  "index": {
+    "fields": [
+      "DataType",
+      "IdCardNo",
+      "SpNo",
+      "RelatedNo",
+      "RelatedDateType"
+    ]
+  },
+  "ddoc": "personIndexDoc",
+  "name": "personIndex",
+  "type": "json"
+}
