@@ -14,4 +14,4 @@ sudo configtxgen -profile InsuranceOrgsChannel -outputCreateChannelTx ./channel-
 sudo configtxgen -profile FundamentalOrgsChannel -outputCreateChannelTx ./channel-artifacts/fundamentalChannel.tx -channelID fundamental
 
 # 启动
-docker-compose -f docker-compose-insurance.yaml up -d
+docker-compose -f docker-compose-insurance.yaml -f docker-compose-couch.yaml up -d
